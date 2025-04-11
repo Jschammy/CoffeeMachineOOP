@@ -3,24 +3,20 @@ from menu import Menu, MenuItem
 from coffee_maker import CoffeeMaker
 from money_machine import MoneyMachine
 
-
-money_machine = MoneyMachine()
-coffee_maker = CoffeeMaker()
-menu = Menu()
-
-
-is_on = True
+machine_on = True
+my_coffee_machine = CoffeeMaker()
+my_menu = Menu()
+my_money_machine = MoneyMachine()
 
 
-while is_on:
-    options = menu.get_items()
-    choice = input(f"What would you like? ({options}): ")
-    if choice == "off:":
-        is_on = False
-    elif choice == "report":
-        coffee_maker.report()
-        money_machine.report()
-    else:
-        drink = menu.find_drink(choice)
-        if coffee_maker.is_resource_sufficient(drink) and money_machine.make_payment(drink.cost):
-            coffee_maker.make_coffee(drink)
+while machine_on:
+    user_input = input(f"Please select from the following options ({my_menu.get_items()}): ").lower()
+    if user_input == "report":
+        my_coffee_machine.report()
+        my_money_machine.report()
+    elif user_input == "off":
+        machine_on = False
+    elif my_menu.find_drink(user_input):
+        customer_order = my_menu.find_drink(user_input)
+        if my_coffee_machine.is_resource_sufficient(customer_order) and my_money_machine.make_payment(customer_order.cost):
+            my_coffee_machine.make_coffee(customer_order)
